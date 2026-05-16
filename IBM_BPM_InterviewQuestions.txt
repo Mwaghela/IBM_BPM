@@ -1,0 +1,170 @@
+# IBM BPM Interview Questions
+1. Components of BPM. 
+    Process Server -> Used by Admin Team
+    Process Center Console -> Used by Admin Team/Developer
+    Process Designer -> Used by Developer
+    Performance Data Warehouse -> Used by Admin Team/Developer
+    Process Center -> Used by Developer Team
+    Process Portal -> Used by Developer/Tester/Business Users
+    Process Admin Console -> Used by Developer/Tester/Admin Team
+
+2. Cluster Topology. 
+    Single Cluster
+    3 Cluster (Messaging Cluster, Application Cluster and Support Cluster)
+    Note: Sequence to follow restart of IBM BPM 3 Cluster -> MAS (Messaging, Application and Support)
+
+3. UCA - Under Cover Agent. 
+    Used to sending and receiving a message within teamwork. The body of the message is defined by teamwork's service that is attached to the UCA
+
+4. Event Lister. 
+    Types: Start Message and Intermediate Message
+    Note: Cannot be added at service layer, they are used at Business Process Layer
+
+5. Start Message Event Lister. 
+    When UCA reached to endpoint, it cause Business Process to start
+    Output of UCA should be used to set the starting values of the variables within the business process
+    There is no concept of co-relation in start message event because it is creating a new BPD instance & there is no data to compare it to
+
+6. Intermediate Message Event Lister. 
+    It take place while running business process
+    They tell the Busienss Process to move a token forward in the process
+    Intermediate Lister moves forward only if event output data matches with the co-relation data in the business process
+
+7. Tracking. 
+    To track a particular value throught the process we will use the tracking group
+    To track a particular value go to Authoring Environment -> File Option -> Send to Performance Data Warehouse
+    Note: not recommanded at it slow down the entire system
+
+8. Serialization. 
+    Process of converting XML to Business Object/TW Object
+    Web service integration service, output of web service is ML, we need to convert it to TW Object
+
+9. Exceptions. 
+    BPD Level
+        Intermediate Exception Event
+        End Exception Event
+
+    Service Level
+        Catch Exception
+        Throw Exception
+
+10. Reports. 
+    Process Portal -> Scoreboards (Sometimes disabled by Admin Team based on Business Needs)
+    Ad-hoc Reports: To create reports at anytime
+
+11. SLA - Service Level Agreement. 
+    is a binding contract between a service provider and a customer that defines the expected level of service, including quality, availability, and responsibilities
+
+12. Team Works (TW). 
+    BPM Tool developed by Lombardi Software
+    TW Architect enables all groups within your enterprise to collaborate to design & deploy efficient process
+    TW also allows you to manage & analyse process performance
+    TW is having Eclipse based Authoring Environment that intergrate with your other dev tools
+
+13 TW Components. 
+    Shared Model
+    Process Server
+    Performance Server
+    Server Console
+    Authoring Environment
+    Process Portal
+
+14. Types of Gateways. 
+    Parellel Gateway(Diverging) -> Takes All Path
+    Inclusive -> Takes One or more path (n-1)
+    Exclusive -> Takes Only One
+    Event -> Takes Only one
+        Intermediate Message Events (Receiving): Waits for an external system or user to send a specific message to trigger the path.
+        Intermediate Timer Events: Waits for a specific duration or scheduled time to pass. (e.g., If a system does not respond in 24 hours, take the timeout path)
+
+15. Types of Process. 
+    Sub-Process -> Non reusable
+    Linked Process -> Reusable
+    Event Process 
+        -> Single start event 
+        -> Can run in parellel
+        -> Timer Message Error
+        -> Activity Name must be unique
+        -> No Boundary Event Support
+
+16. Task Reassignment. 
+
+17. Start Process. 
+
+18. Get Active Task. 
+
+19. Validate Coaches. 
+    tw.local.validate = new tw.object.CoachValidation();
+    tw.system.addCoachValidationError(tw.local.validate, "tw.local.firstName", "Please enter first name");
+
+20. Enable Javascript Debugging. 
+    -> By default, IBM BPM uses compressed (minified) Dojo and Coach framework files. 
+        To make these readable for debugging, you must change a setting in the WebSphere Application Server (WAS) administrative console.
+        1. Log in to the WebSphere Administrative Console.
+        2. Navigate to Resources > Resource Environment > Resource Environment Providers.
+        3. On the Resource environment providers page, click Mashups_ConfigService.
+        4. Under Additional Properties, click Custom properties.
+        5. Find the property named isDebug and change its value to true.
+        6. Save your changes to the master configuration and restart the application server instance.
+    -> Debugging at Client Side Human Service (CSHS)
+        You can insert the "debugger;" statement directly into your JavaScript code. The browser will automatically pause execution at that line if the Developer Tools are open
+
+21. Generate unique ID for Coach View at runtime(). 
+    -> Using the $$viewDOMID$$ Placeholder
+        This is the standard approach for custom HTML within a Coach View. At runtime, the system automatically replaces this keyword with the unique DOM ID of the specific Coach View instance.
+        Usage: In the Layout tab, add a Custom HTML control.
+        Example:
+            <div id="$$viewDOMID$$_myUniqueContainer">
+                <input id="$$viewDOMID$$_myInputField" type="text" />
+            </div>
+        Benefit: It ensures all IDs are globally unique across the entire Coach, preventing element collisions.
+
+    -> For more complex scenarios where you need a stable ID for automation (like IBM RPA) or programmatic element creation, use the controlidpath property from the Coach View context object.
+        Code Snippet:
+            // Inside a load or change event handler
+            var uniqueID = this.context.controlidpath;
+            var myElementId = uniqueID + "_customElement";
+    -> Accessing the Root Element ID
+        If you simply need the ID of the Coach View's wrapper <div>, you can access it directly via the DOM element in your behavior scripts.
+            var viewDivId = this.context.element.id;
+
+22. Fire Boundary Event. 
+    this.context.trigger(callback);
+
+23. Access Child CoachView. 
+    this.context.getSubview(viewId, requiredOrder);
+    Note: 
+        viewId -> control id of getSubview
+        requiredOrder -> Boolean, Optional, Array to be maintain order same of DOM Tree
+    Eg. this.context.getSubview("viewId",false); 
+
+24. Inject values to BO in Production Environment. 
+    -> setData
+
+35. Start BPM Process from outside. 
+    -> Expose as a web service like WSDL & Call it from oustide & inside BPM call in Javascript 'startBPMByProcessName()'
+    -> BPM API Exposed as rest service to start the BPM Process
+    -> Through JMS
+    -> Through Java API     
+
+26. Get an element by id in Dojo. 
+    dojo.byId('someId');
+
+27. Different Types of Human Task
+    -> ToDo Task
+    -> Invocation Task
+    -> Collaboration Task
+    -> Administrative Task
+
+28. Start BPD Process
+    tw.system.startProcessByName(ProcessName, mapValues, AuthenticationFlag);
+    Note:
+        ProcessName(String) -> Name of the process
+        mapValues(NameValuePair) -> Input map values of the process
+        AuthenticationFlag(Boolean) -> true/false, you can keep it false.
+
+29. Reassign Task to specific user
+    tw.system.findTaskByID(taskId).reassignTo(userName);
+    Note:
+        taskId(String) -> Task ID to be reassigned
+        userName(String) -> Username
