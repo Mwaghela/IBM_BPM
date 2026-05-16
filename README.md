@@ -12,27 +12,27 @@ Business Process Automation
 Human Services & Coaches  
 REST/SOAP Service Integrations  
 Enterprise Workflow Orchestration  
-Reusable BPM Components
-Exception Handling Framework
-Process Optimization Patterns
-Integration with External Systems
-Scalable Enterprise Architecture
-Environment Deployment Support
+Reusable BPM Components  
+Exception Handling Framework  
+Process Optimization Patterns  
+Integration with External Systems  
+Scalable Enterprise Architecture  
+Environment Deployment Support  
 
 # Technology Stack
-IBM BPM / BAW
-Java
-REST APIs
-SOAP Web Services
-SQL Database
-XML / JSON
-WebSphere Application Server
-BPM Process Designer
+IBM BPM / BAW  
+Java  
+REST APIs  
+SOAP Web Services  
+SQL Database  
+XML / JSON  
+WebSphere Application Server  
+BPM Process Designer  
 
 # Best Practices Covered
-Modular BPM Design
-Service Reusability
-Error Handling Strategies
-Environment Configuration Management
-Integration Decoupling
-Performance Optimization
+Modular BPM Design  
+Service Reusability  
+Error Handling Strategies  
+Environment Configuration Management  
+Integration Decoupling  
+Performance Optimization  
