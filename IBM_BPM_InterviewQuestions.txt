@@ -37,7 +37,8 @@
 
 8. Serialization. 
     Process of converting XML to Business Object/TW Object
-    Web service integration service, output of web service is ML, we need to convert it to TW Object
+    Web service integration service, output of web service is XML, we need to convert it to TW Object
+    tw.system.serializer.fromXml(xmlString); or You can do it using xPath
 
 9. Exceptions. 
     BPD Level
@@ -80,6 +81,8 @@
 15. Types of Process. 
     Sub-Process -> Non reusable
     Linked Process -> Reusable
+    Dynamic Sub-process -> Required to map one linked process, Dynamic Process (Field): to be mapped using variable. 
+        One Catch here is, all dynamic sub-process should have same signature (input mappings).
     Event Process 
         -> Single start event 
         -> Can run in parellel
@@ -88,10 +91,17 @@
         -> No Boundary Event Support
 
 16. Task Reassignment. 
+    var tasks = tw.system.findProcessInstanceByID(id).tasks;
+    for(task in tasks){
+        if(task.status == "Received"){
+            log.info("TaskId of currently active task is: " + task.id);
+    }
 
-17. Start Process. 
 
-18. Get Active Task. 
+
+17. Start Process. Q28
+
+18. Get Active Task. Q16
 
 19. Validate Coaches. 
     tw.local.validate = new tw.object.CoachValidation();
