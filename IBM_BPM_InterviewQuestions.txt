@@ -178,3 +178,16 @@
     Note:
         taskId(String) -> Task ID to be reassigned
         userName(String) -> Username
+
+30. Designing Patterns used in IBM BPM / BAW
+    1. Message Envelope Pattern
+        Problem Statement: We have some input parameters to be passed at BPD/Service level and as project grows this parameter list will also grows and mapping this input parameters at each service is human error prone and difficult to manage.
+        Solution: Message Envelope Pattern, we will wrap all the parameters and create BO as processContext and businessContext to pass is as input parameters, this will reduce human error and once variable created on top level, it will pass through all the service till down level.
+BusinessContext BO will have variables like application_id, application_type, businessArea, solId, branchName etc
+ProcessContext BO will have variables like instanceId, userName, userId, currentStage, startDate etc
+    2. Claim Check Pattern
+        Problem Statement: At BPD level, we have bulky BO coming in and out, which will create 2 problems, 1st BPD context will get bloated up because of infused variables and 2nd when you do transition from BPD to CSHS, there is deep copy serialisation and deserialisation process which is very performance intensive process.
+        Solution: Claim Check Pattern recommend to pass only the application id to level services, so all details of process/business data will be stored at DB level and when we execute the service, first thing will do is to load data from DB based on application id. This way serialisation and deserialisation will be avoided as well business context will not get bloated up and you will have latest real time data available at service.
+    3. Constructor Designing Pattern
+        Problem Statement: When we have couple of simple of complex BO, we have different ways to initialisation, 1st we can have default value(not recommended as when signature of BO change, default value will cause issues),  2nd we can have script to initialise variables, this is also prone to errors as multiple places we have to maintain same code and can't be reused.
+        Solution: Constructor Designing Pattern solves both the issues, we can have single reusable constructor service, which is responsible to construct variables, This constructor service can script, or DB retrieval or some other integration to initialise the objects
